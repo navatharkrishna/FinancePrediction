@@ -1,15 +1,13 @@
 import pandas as pd
-from config.database import engine
+from utils.supabase_client import get_supabase
 
 def upload_csv_to_table(file, table_name):
+    supabase = get_supabase()
+
     df = pd.read_csv(file)
+    rows = df.to_dict(orient="records")
 
-    df.to_sql(
-        table_name,
-        engine,
-        if_exists="append",
-        index=False,
-        method="multi"
-    )
+    # Insert rows
+    response = supabase.table(table_name).insert(rows).execute()
 
-    return f"Uploaded {len(df)} rows to {table_name}"
+    return f"Uploaded {len(rows)} rows to {table_name}"
