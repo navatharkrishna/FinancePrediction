@@ -8,5 +8,5 @@ table_name = st.text_input("Enter Table Name")
 
 if st.button("Upload"):
     if file and table_name:
-        upload_csv_to_table(file, table_name)
-        st.success("File Uploaded Successfully!")
+        result = upload_csv_to_table(file, table_name)
+        st.success(result)
